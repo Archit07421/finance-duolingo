@@ -1,4 +1,5 @@
 import { useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export default function FakeNews() {
   const [message, setMessage] = useState("");
@@ -22,7 +23,7 @@ export default function FakeNews() {
     setResult(null);
 
     try {
-      const res = await fetch("/api/scam-detector/analyze", {
+      const res = await fetch(`${API_URL}/api/scam-detector/analyze`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,7 +66,7 @@ export default function FakeNews() {
 
       formData.append("file", file);
 
-      const res = await fetch("/api/scam-detector/analyze-file", {
+      const res = await fetch(`${API_URL}/api/scam-detector/analyze-file`, {
         method: "POST",
         body: formData,
       });

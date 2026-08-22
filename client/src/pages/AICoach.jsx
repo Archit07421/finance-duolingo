@@ -1,4 +1,5 @@
 import { useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export default function AICoach() {
 
@@ -64,7 +65,7 @@ export default function AICoach() {
     try {
 
       const response = await fetch(
-        "/api/ai-coach/generate",
+        `${API_URL}/api/ai-coach/generate`,
         {
           method: "POST",
 
