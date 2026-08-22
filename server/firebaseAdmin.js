@@ -1,7 +1,10 @@
+import fs from "fs";
 import { initializeApp, cert } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 
-import serviceAccount from "./serviceAccountKey.json" with { type: "json" };
+const serviceAccount = JSON.parse(
+  fs.readFileSync("/etc/secrets/serviceAccountKey.json", "utf8")
+);
 
 const app = initializeApp({
   credential: cert(serviceAccount),
