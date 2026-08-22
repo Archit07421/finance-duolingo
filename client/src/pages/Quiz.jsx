@@ -1,23 +1,31 @@
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import quizData from "../data/quizData";
+import { useAuth } from "../context/AuthContext";
+import {
+  addXP,
+  updateStreak,
+} from "../services/userService";
 
 export default function Quiz() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const level = searchParams.get("level") || "easy";
+  const { user } = useAuth();
 
-  const questions = quizData[level] || [];
+const level = searchParams.get("level") || "easy";
 
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [score, setScore] = useState(0);
-  const [finished, setFinished] = useState(false);
+const [currentQuestion, setCurrentQuestion] = useState(0);
+const [selectedAnswer, setSelectedAnswer] = useState(null);
+const [score, setScore] = useState(0);
+const [finished, setFinished] = useState(false);
+const [savingProgress, setSavingProgress] = useState(false);
 
-  const totalQuestions = questions.length;
+const questions = quizData[level] || [];
 
-  const question = questions[currentQuestion];
+const totalQuestions = questions.length;
+
+const question = questions[currentQuestion];
 
   const progress =
     totalQuestions > 0
@@ -44,17 +52,53 @@ export default function Quiz() {
   // Next question
   // -------------------------
 
-  const handleNext = () => {
+  const saveQuizProgress = async (finalScore) => {
+    if (!user?.uid) {
+      console.error("No logged-in user found.");
+      return;
+    }
+  
+    try {
+      setSavingProgress(true);
+  
+      const earnedXP = finalScore * 10;
+  
+      // Add XP
+      if (earnedXP > 0) {
+        await addXP(user.uid, earnedXP);
+      }
+  
+      // Update daily streak
+      await updateStreak(user.uid);
+  
+      console.log(
+        `Quiz completed! +${earnedXP} XP`
+      );
+    } catch (error) {
+      console.error(
+        "Failed to save quiz progress:",
+        error
+      );
+    } finally {
+      setSavingProgress(false);
+    }
+  };
 
+  const handleNext = async () => {
     if (currentQuestion === totalQuestions - 1) {
+      const finalScore =
+        score +
+        (selectedAnswer === question.answer ? 1 : 0);
+  
+      await saveQuizProgress(finalScore);
+  
       setFinished(true);
       return;
     }
-
+  
     setCurrentQuestion((previous) => previous + 1);
     setSelectedAnswer(null);
   };
-
 
   // -------------------------
   // Restart
@@ -558,23 +602,28 @@ export default function Quiz() {
           {selectedAnswer !== null && (
 
             <button
-              onClick={handleNext}
-              className="
-                mt-5
-                w-full
-                rounded-xl
-                bg-blue-600
-                px-5
-                py-3.5
-                text-sm
-                font-semibold
-                transition
-                hover:bg-blue-500
-              "
+            onClick={handleNext}
+            disabled={savingProgress}
+            className="
+            mt-5
+            w-full
+            rounded-xl
+            bg-blue-600
+            px-5
+            py-3.5
+            text-sm
+            font-semibold
+            transition
+            hover:bg-blue-500
+            disabled:cursor-not-allowed
+            disabled:opacity-50
+          "
             >
-              {currentQuestion === totalQuestions - 1
-                ? "Finish quiz"
-                : "Continue →"}
+              {savingProgress
+  ? "Saving progress..."
+  : currentQuestion === totalQuestions - 1
+    ? "Finish quiz"
+    : "Continue →"}
             </button>
 
           )}

@@ -1,4 +1,7 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { getUserProfile } from "../services/userService";
 import quizData from "../data/quizData";
 
 const levels = [
@@ -41,9 +44,31 @@ export default function Quizzes() {
   );
 
   // Prototype values — later these can come from user progress
-  const questionsSolved = 20;
-  const xp = 1250;
-  const streak = 7;
+  const { user } = useAuth();
+
+const [profile, setProfile] = useState(null);
+
+useEffect(() => {
+  const loadProfile = async () => {
+    if (!user?.uid) return;
+
+    try {
+      const data = await getUserProfile(user.uid);
+      setProfile(data);
+    } catch (error) {
+      console.error(
+        "Failed to load profile:",
+        error
+      );
+    }
+  };
+
+  loadProfile();
+}, [user]);
+
+const xp = profile?.xp || 0;
+const streak = profile?.streak || 0;
+const questionsSolved = 0;
 
   const overallProgress =
     totalQuestions > 0
@@ -53,7 +78,30 @@ export default function Quizzes() {
   return (
     <div className="min-h-screen bg-[#080d18] text-white">
       <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
-
+      <button
+        onClick={() => navigate("/dashboard")}
+        className="
+          mb-6
+          inline-flex
+          items-center
+          gap-2
+          rounded-lg
+          border
+          border-blue-500/40
+          bg-blue-500/10
+          px-3
+          py-2
+          text-sm
+          font-medium
+          text-blue-400
+          transition-all
+          hover:border-blue-400
+          hover:bg-blue-500/20
+          hover:text-blue-300
+        "
+      >
+        ← Home
+      </button>
         {/* Header */}
         <section className="mb-10">
 
