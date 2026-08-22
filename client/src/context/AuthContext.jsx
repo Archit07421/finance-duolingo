@@ -11,10 +11,12 @@ import {
     signOut,
   } from "firebase/auth";
   
+  import { auth, googleProvider } from "../firebase";
+  
   import {
-    auth,
-    googleProvider,
-  } from "../firebase";
+    createUserProfile,
+    getUserProfile,
+  } from "../services/userService";
   
   
   const AuthContext = createContext(null);
@@ -24,20 +26,61 @@ import {
   
     const [user, setUser] = useState(null);
   
+    const [profile, setProfile] = useState(null);
+  
     const [loading, setLoading] = useState(true);
   
-  
-    // Listen for Firebase authentication changes
   
     useEffect(() => {
   
       const unsubscribe = onAuthStateChanged(
         auth,
-        (currentUser) => {
+        async (currentUser) => {
   
-          setUser(currentUser);
+          try {
   
-          setLoading(false);
+            setUser(currentUser);
+  
+  
+            if (currentUser) {
+  
+              // Make sure the Firestore profile exists
+              await createUserProfile(
+                currentUser
+              );
+  
+  
+              // Get the Firestore profile
+              const firestoreProfile =
+                await getUserProfile(
+                  currentUser.uid
+                );
+  
+  
+              setProfile(
+                firestoreProfile
+              );
+  
+            } else {
+  
+              setProfile(null);
+  
+            }
+  
+          } catch (error) {
+  
+            console.error(
+              "Authentication error:",
+              error
+            );
+  
+            setProfile(null);
+  
+          } finally {
+  
+            setLoading(false);
+  
+          }
   
         }
       );
@@ -46,42 +89,40 @@ import {
       return () => unsubscribe();
   
     }, []);
-  
-  
-    // Google login
-  
+
     const loginWithGoogle = async () => {
+        const result = await signInWithPopup(auth, googleProvider);
+        return result.user;
+      };
   
-      const result = await signInWithPopup(
-        auth,
-        googleProvider
-      );
-  
-      return result.user;
-  
-    };
-  
-  
-    // Logout
   
     const logout = async () => {
   
       await signOut(auth);
   
+      setUser(null);
+  
+      setProfile(null);
+  
     };
   
   
     return (
-      <AuthContext.Provider
+  
+        <AuthContext.Provider
         value={{
           user,
+          profile,
           loading,
           loginWithGoogle,
           logout,
         }}
       >
+  
         {children}
+  
       </AuthContext.Provider>
+  
     );
   
   }
@@ -89,6 +130,20 @@ import {
   
   export function useAuth() {
   
-    return useContext(AuthContext);
+    const context = useContext(
+      AuthContext
+    );
+  
+  
+    if (!context) {
+  
+      throw new Error(
+        "useAuth must be used inside AuthProvider"
+      );
+  
+    }
+  
+  
+    return context;
   
   }

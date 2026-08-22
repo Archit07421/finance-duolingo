@@ -1,4 +1,12 @@
 import { Link } from "react-router-dom";
+import LandingNavbar from "../components/LandingNavbar";
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import {
   ArrowRight,
   Award,
@@ -9,103 +17,469 @@ import {
   TrendingUp,
 } from "lucide-react";
 
+import { CloudShader } from "@/components/ui/cloud-shader";
+import { AnimatedTestimonials } from "@/components/ui/animated-testimonials";
+
+
 const features = [
   {
-    icon: BookOpen,
-    title: "Interactive Lessons",
-    description: "Learn stocks, ETFs, bonds, and more through bite-sized lessons.",
+    quote:
+      "Master stocks, ETFs, mutual funds, bonds, and investing fundamentals through short, interactive lessons designed for beginners.",
+    name: "Interactive Learning",
+    designation: "Learn finance step by step",
+    src: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80",
   },
+
   {
-    icon: Sparkles,
-    title: "Earn XP & Badges",
-    description: "Stay motivated with streaks, levels, and achievement badges.",
+    quote:
+      "Turn financial learning into a habit. Complete lessons and quizzes, earn XP, maintain your streak, and unlock achievement badges as you progress.",
+    name: "XP, Streaks & Badges",
+    designation: "Make learning rewarding",
+    src: "https://images.unsplash.com/photo-1559526324-593bc073d938?auto=format&fit=crop&w=800&q=80",
   },
+
   {
-    icon: Bot,
-    title: "AI Finance Coach",
-    description: "Get simple explanations for any beginner finance question.",
+    quote:
+      "Ask questions about investing in plain English and get simple, beginner-friendly explanations without getting overwhelmed by financial jargon.",
+    name: "AI Finance Coach",
+    designation: "Your personal finance guide",
+    src: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=80",
   },
+
   {
-    icon: Shield,
-    title: "Scam Detector",
-    description: "Spot red flags in financial headlines and suspicious messages.",
+    quote:
+      "Analyze suspicious financial messages and investment claims while learning how to recognize common warning signs and scam red flags.",
+    name: "Scam Detector",
+    designation: "Learn to spot financial scams",
+    src: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=800&q=80",
   },
 ];
 
+
 export default function Landing() {
+
   return (
+
     <div className="min-h-svh bg-black text-white">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-6 sm:px-6">
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600">
-            <TrendingUp className="h-5 w-5 text-white" />
-          </div>
-          <span className="text-lg font-bold">
-            Invest<span className="text-blue-500">Quest</span>
-          </span>
-        </div>
-        <Link
-          to="/dashboard"
-          className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 transition-colors hover:border-slate-500 hover:text-white"
-        >
-          Sign In
-        </Link>
-      </nav>
 
-      <section className="mx-auto max-w-6xl px-4 pb-20 pt-12 text-center sm:px-6 sm:pt-20">
-        <div className="mx-auto max-w-3xl">
-          <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-sm text-blue-400">
-            <Award className="h-4 w-4" />
-            Duolingo-style financial literacy
-          </p>
-          <h1 className="text-4xl font-extrabold leading-tight tracking-tight sm:text-6xl">
-            Learn Finance. Play Challenges.{" "}
-            <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
-              Invest Smarter.
-            </span>
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-slate-400">
-            Master investing concepts through interactive lessons, quizzes, and
-            AI-powered education — no financial advice, just clarity.
-          </p>
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Link
-              to="/dashboard"
-              className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-blue-600/25 transition-all hover:bg-blue-500 hover:shadow-blue-500/30"
-            >
-              Start Learning
-              <ArrowRight className="h-5 w-5" />
-            </Link>
-            <Link
-              to="/lessons"
-              className="inline-flex items-center gap-2 rounded-xl border border-slate-700 px-8 py-3.5 text-base font-semibold text-slate-300 transition-colors hover:border-slate-500 hover:text-white"
-            >
-              Browse Lessons
-            </Link>
-          </div>
+
+      {/* =====================================================
+          HERO
+      ===================================================== */}
+
+      <section className="relative min-h-[720px] overflow-hidden">
+
+
+        {/* -------------------------------------------------
+            CLOUD SHADER BACKGROUND
+        ------------------------------------------------- */}
+
+        <div className="absolute inset-0 z-0">
+
+          <CloudShader
+            className="h-full w-full"
+          />
+
         </div>
 
-        <div className="mt-20 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map(({ icon: Icon, title, description }) => (
+
+        {/* -------------------------------------------------
+            DARK OVERLAY
+        ------------------------------------------------- */}
+
+        <div className="absolute inset-0 z-10 bg-black/55" />
+
+
+        {/* -------------------------------------------------
+            BOTTOM FADE
+        ------------------------------------------------- */}
+
+        <div className="absolute inset-x-0 bottom-0 z-10 h-48 bg-gradient-to-t from-black to-transparent" />
+
+
+        {/* =================================================
+            NAVBAR
+        ================================================= */}
+
+        <LandingNavbar/>
+        
+
+
+        {/* =================================================
+            HERO CONTENT
+        ================================================= */}
+
+        <div className="relative z-20 mx-auto flex min-h-[620px] max-w-6xl items-center justify-center px-4 pb-20 pt-44 text-center sm:px-6">
+
+
+          <div className="mx-auto max-w-4xl">
+
+
+            {/* Badge */}
+
+            <p
+              className="
+                mx-auto
+                mb-5
+                inline-flex
+                items-center
+                gap-2
+                rounded-full
+                border
+                border-blue-400/30
+                bg-blue-500/10
+                px-4
+                py-1.5
+                text-sm
+                text-blue-300
+                backdrop-blur-md
+              "
+            >
+
+              <Award className="h-4 w-4" />
+
+              Duolingo-style financial literacy
+
+            </p>
+
+
+            {/* Heading */}
+
+            <h1
+              className="
+                text-4xl
+                font-extrabold
+                leading-tight
+                tracking-tight
+                sm:text-6xl
+              "
+            >
+
+Learn finance. Build confidence.
+
+              <span
+                className="
+                  mt-2
+                  block
+                  bg-gradient-to-r
+                  from-blue-300
+                  via-blue-400
+                  to-blue-600
+                  bg-clip-text
+                  sm:text-5xl
+                  text-transparent
+                "
+              >
+                Your journey to smarter investing starts here.
+
+              </span>
+
+            </h1>
+
+
+            {/* Description */}
+
+            <p
+              className="
+                mx-auto
+                mt-6
+                max-w-2xl
+                text-lg
+                leading-relaxed
+                text-slate-300
+              "
+            >
+
+              Learn finance, understand investing, and build
+              the confidence to make smarter financial
+              decisions — one step at a time.
+
+            </p>
+
+
+            {/* Buttons */}
+
             <div
-              key={title}
-              className="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 text-left transition-colors hover:border-slate-700"
+              className="
+                mt-10
+                flex
+                flex-col
+                items-center
+                justify-center
+                gap-4
+                sm:flex-row
+              "
             >
-              <div className="mb-4 inline-flex rounded-xl bg-blue-500/10 p-3 text-blue-400">
-                <Icon className="h-6 w-6" />
-              </div>
-              <h3 className="font-semibold text-white">{title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-400">
-                {description}
-              </p>
+
+              <Link
+                to="/login"
+                className="
+                  inline-flex
+                  items-center
+                  gap-2
+                  rounded-xl
+                  bg-blue-600
+                  px-8
+                  py-3.5
+                  text-base
+                  font-semibold
+                  text-white
+                  shadow-lg
+                  shadow-blue-600/25
+                  transition-all
+                  hover:bg-blue-500
+                  hover:shadow-blue-500/30
+                "
+              >
+
+                Start Learning
+
+                <ArrowRight className="h-5 w-5" />
+
+              </Link>
+
+
+              <a
+                href="#features"
+                className="
+                  inline-flex
+                  items-center
+                  gap-2
+                  rounded-xl
+                  border
+                  border-slate-700
+                  bg-black/20
+                  px-8
+                  py-3.5
+                  text-base
+                  font-semibold
+                  text-slate-300
+                  backdrop-blur-sm
+                  transition-colors
+                  hover:border-slate-500
+                  hover:text-white
+                "
+              >
+
+                Explore Features
+
+              </a>
+
             </div>
-          ))}
+
+
+            {/* Small trust text */}
+
+            <p className="mt-6 text-xs text-slate-500">
+
+              Interactive learning • AI guidance • Quizzes • Progress tracking
+
+            </p>
+
+          </div>
+
         </div>
+
       </section>
 
-      <footer className="border-t border-slate-800 py-6 text-center text-sm text-slate-500">
-        InvestQuest — Educational platform only. Not financial advice.
+     
+
+
+      {/* =====================================================
+          FEATURES
+      ===================================================== */}
+
+      <section
+        id="features"
+        className="relative z-20 bg-black px-4 py-20 sm:px-6"
+      >
+
+        <div className="mx-auto max-w-6xl">
+
+
+          {/* Section heading */}
+
+          <div className="mx-auto max-w-2xl text-center">
+
+            <p className="text-sm font-medium text-blue-400">
+              EVERYTHING YOU NEED
+            </p>
+
+            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">
+
+              Learn finance without the overwhelm.
+
+            </h2>
+
+            <p className="mt-4 text-slate-400">
+
+              InvestQuest turns complicated financial concepts
+              into simple, interactive learning experiences.
+
+            </p>
+
+          </div>
+
+
+          {/* Feature cards */}
+
+          
+          <div className="mt-14">
+  <AnimatedTestimonials
+    testimonials={features}
+    autoplay={true}
+  />
+</div>
+             
+
+        </div>
+
+      </section>
+
+      {/* =====================================================
+    FAQ
+===================================================== */}
+
+<section
+  id="faq"
+  className="relative bg-black px-4 py-24 sm:px-6"
+>
+  <div className="mx-auto max-w-3xl">
+
+    {/* Heading */}
+    <div className="mb-12 text-center">
+
+      <p className="text-sm font-medium uppercase tracking-wider text-blue-400">
+        Frequently Asked Questions
+      </p>
+
+      <h2 className="mt-3 text-3xl font-bold text-white sm:text-4xl">
+        Everything you need to know.
+      </h2>
+
+      <p className="mx-auto mt-4 max-w-xl text-slate-400">
+        New to investing? Here are some common questions
+        about how InvestQuest works.
+      </p>
+
+    </div>
+
+    {/* FAQ */}
+    <Accordion
+      type="single"
+      collapsible
+      className="w-full space-y-3"
+    >
+
+      {/* Question 1 */}
+      <AccordionItem
+        value="item-1"
+        className="rounded-xl border border-slate-800 bg-slate-900/50 px-5"
+      >
+        <AccordionTrigger className="text-left text-base font-medium text-white hover:no-underline">
+          Is InvestQuest financial advice?
+        </AccordionTrigger>
+
+        <AccordionContent className="text-sm leading-6 text-slate-400">
+          No. InvestQuest is an educational platform designed
+          to help beginners understand financial concepts.
+          It does not provide personalized financial advice.
+        </AccordionContent>
+      </AccordionItem>
+
+      {/* Question 2 */}
+      <AccordionItem
+        value="item-2"
+        className="rounded-xl border border-slate-800 bg-slate-900/50 px-5"
+      >
+        <AccordionTrigger className="text-left text-base font-medium text-white hover:no-underline">
+          Do I need prior investing knowledge?
+        </AccordionTrigger>
+
+        <AccordionContent className="text-sm leading-6 text-slate-400">
+          Not at all. InvestQuest starts with the fundamentals
+          and gradually builds your understanding through
+          interactive lessons, quizzes and challenges.
+        </AccordionContent>
+      </AccordionItem>
+
+      {/* Question 3 */}
+      <AccordionItem
+        value="item-3"
+        className="rounded-xl border border-slate-800 bg-slate-900/50 px-5"
+      >
+        <AccordionTrigger className="text-left text-base font-medium text-white hover:no-underline">
+          Can I actually invest through InvestQuest?
+        </AccordionTrigger>
+
+        <AccordionContent className="text-sm leading-6 text-slate-400">
+          No. InvestQuest focuses on financial education.
+          It helps you understand investing concepts so you
+          can make more informed decisions on your own.
+        </AccordionContent>
+      </AccordionItem>
+
+      {/* Question 4 */}
+      <AccordionItem
+        value="item-4"
+        className="rounded-xl border border-slate-800 bg-slate-900/50 px-5"
+      >
+        <AccordionTrigger className="text-left text-base font-medium text-white hover:no-underline">
+          What can I learn on InvestQuest?
+        </AccordionTrigger>
+
+        <AccordionContent className="text-sm leading-6 text-slate-400">
+          You can learn about stocks, ETFs, mutual funds,
+          bonds, risk, investing basics and common financial
+          scams through interactive learning experiences.
+        </AccordionContent>
+      </AccordionItem>
+
+      {/* Question 5 */}
+      <AccordionItem
+        value="item-5"
+        className="rounded-xl border border-slate-800 bg-slate-900/50 px-5"
+      >
+        <AccordionTrigger className="text-left text-base font-medium text-white hover:no-underline">
+          How does the learning system work?
+        </AccordionTrigger>
+
+        <AccordionContent className="text-sm leading-6 text-slate-400">
+          Start with beginner-friendly lessons, test your
+          knowledge through quizzes and challenges, and
+          progress through the platform while earning XP
+          and achievements.
+        </AccordionContent>
+      </AccordionItem>
+
+    </Accordion>
+
+  </div>
+</section>
+
+
+      {/* =====================================================
+          FOOTER
+      ===================================================== */}
+
+      <footer
+        className="
+          border-t
+          border-slate-800
+          bg-black
+          py-6
+          text-center
+          text-sm
+          text-slate-500
+        "
+      >
+
+        InvestQuest — Educational platform only.
+        Not financial advice.
+
       </footer>
+
+
     </div>
   );
 }

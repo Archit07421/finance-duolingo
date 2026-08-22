@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import lessons from "../data/lessons";
+import BackButton from "../components/BackButton";
 
 const STORAGE_KEY = "investquest_completed_lessons";
 
